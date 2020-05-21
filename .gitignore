@@ -1,6 +1,9 @@
 #DB
 db.js
 
+#Keep
+!uploads/.gitkeep
+
 # Logs
 logs
 *.log
