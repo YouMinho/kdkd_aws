@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////
 const pool = require('../lib/db');
 //--------------파일 업로드---------------
+const fs = require('fs');
 const multer = require('multer');
 const uploadformat = require('../public/js/uploadformat');
 
