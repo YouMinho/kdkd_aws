@@ -11,7 +11,18 @@ var KakaoStrategy = require('passport-kakao').Strategy;
 const router = require('express').Router();
 
 router.get('/login', (req, res) => {
-    res.render('user/login', { pass: true });
+    let selectTestUser = `select id, password from user where id = 'test'`;
+    pool.getConnection((err, connection) => {
+        connection.query(selectTestUser, (err, testResult) => {
+            if(err) {
+                console.log(err);
+                connection.release();
+                res.status(500).send('Internal Server Error!!!')
+            }
+            connection.release();
+            res.render('user/login', {testResult: testResult, pass: true});
+        })
+    });    
 });
 
 router.post('/login', (req, res) => {
@@ -47,8 +58,16 @@ router.post('/login', (req, res) => {
                     res.redirect('/home');
                 });
             } else {
-                connection.release();
-                res.render('user/login', { pass: false });
+                let selectTestUser = `select id, password from user where id = 'test'`;
+                connection.query(selectTestUser, (err, testResult) => {
+                    if(err) {
+                        console.log(err);
+                        connection.release();
+                        res.status(500).send('Internal Server Error!!!')
+                    }
+                    connection.release();
+                    res.render('user/login', {testResult: testResult, pass: false});
+                });
             }
         })
     });
